@@ -1,31 +1,30 @@
 var express 	= require('express');
+	port		= 8080
 	app 		= express();
-    fs          = require('fs')
-	morgan 		= require('morgan')
+    fs          = require('fs');
+	morgan 		= require('morgan');
 
 
 //DB Connection config
 require('./config/db.js')
 
 //Middleware
-app.use(morgan('dev'))
+app.use(morgan('dev'));
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
 
 // Routes
-app.get('/status', function (req, res, next)
-{
+app.get('/status', function (req, res){
   res.sendStatus(200);
 });
 
-app.get('/', function (req, res, next)
-{
-  var data = fs.readFileSync(__dirname + '/views/index.html');
+app.get('/', function (req, res){
   res.status(200);
-  res.header('Content-Type', 'text/html');
-  res.end(data.toString());
+  res.render('index.html');
 });
 
 
 
-app.listen(8080, function () {
-  console.log( "Almacen listening 8080 ")
+app.listen(port, function () {
+  console.log( "Almacen listening at " + port)
 });

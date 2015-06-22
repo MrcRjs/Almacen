@@ -1,9 +1,11 @@
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
+mysql = require('mysql');
+var options = {
   host     : 'localhost',
   user     : 'Username',
-  password : 'password'
-});
+  password : 'password',
+  database : 'Almacen'
+}
+connection = mysql.createConnection(options);
 
 connection.connect(function(err) {
   if (err) {
@@ -13,3 +15,4 @@ connection.connect(function(err) {
 
   console.log('Connected to mysql as ' + connection.threadId);
 });
+module.exports = connection;

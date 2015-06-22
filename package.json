@@ -1,4 +1,28 @@
-{
+{ "name": "Almacen de Piezas",
+  "version": "0.0.1",
+  "description": "Administrador de piezas de un almacen",
+  "keywords": [
+    "Almacen",
+    "Node.js",
+    "Mysql",
+    "BUAP"
+  ],
+  "author": {
+    "name": "Marco Rojas",
+    "email": "Marco.rojas@alumno.buap.mx",
+    "url":  "http://www.twitter.com/MarcoR1095"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrcRjs/Almacen.git"
+  },
+
+  "engines": {
+    "node": ">= 0.12.0",
+    "npm": ">= 1.2.0",
+    "mysql": ">= 5.5"
+  },
+
   "dependencies": {
     "express": "~4.13.0",
     "mysql": "~2.7.0"

@@ -11,6 +11,7 @@ require('./config/db.js')
 //Middleware
 app.use(morgan('dev'));
 app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
 // Routes
@@ -20,7 +21,7 @@ app.get('/status', function (req, res){
 
 app.get('/', function (req, res){
   res.status(200);
-  res.render('index.html');
+  res.render('index',{seccion : 'Inicio'});
 });
 
 

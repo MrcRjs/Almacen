@@ -86,7 +86,8 @@ CREATE TABLE IF NOT EXISTS `Almacen`.`Existencias` (
   `PiezaT` VARCHAR(3) NOT NULL,
   `PiezaM` TINYINT UNSIGNED NOT NULL,
   `Cantidad` INT NULL,
-  PRIMARY KEY (`idEstanteria`, `PiezaT`, `PiezaM`),
+  CONSTRAINT pkExist
+    PRIMARY KEY (`idEstanteria`, `PiezaT`, `PiezaM`),
   CONSTRAINT `fkEstanteria`
     FOREIGN KEY (`idEstanteria`)
     REFERENCES `Almacen`.`Estanteria` (`idEstanteria`)

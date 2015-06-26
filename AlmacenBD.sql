@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `Almacen`.`Existencias` (
   `PiezaT` VARCHAR(3) NOT NULL,
   `PiezaM` TINYINT(3) UNSIGNED NOT NULL,
   `Cantidad` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`PiezaT`, `PiezaM`),
+  PRIMARY KEY (`PiezaT`, `PiezaM`, `idEstanteria`),
   INDEX `fkPieza` (`PiezaT` ASC, `PiezaM` ASC),
   INDEX `fkEstanteria` (`idEstanteria` ASC),
   CONSTRAINT `fkEstanteria`

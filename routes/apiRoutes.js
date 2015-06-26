@@ -29,7 +29,7 @@ module.exports = (function(app) {
     var tipo   = req.params.tipo
         modelo = req.params.modelo
         query  = {
-          sql       : 'SELECT * FROM Existencias USE INDEX (fkPieza) WHERE PiezaT=?',
+          sql       : 'SELECT idEstanteria AS Estanteria, CONCAT(PiezaT, CAST(PiezaM AS CHAR)) AS Pieza, Cantidad FROM Existencias USE INDEX (fkPieza) WHERE PiezaT=?',
           timeout   : 200,
           values    : [tipo]
         };
@@ -39,10 +39,10 @@ module.exports = (function(app) {
     }
     connection.query(query, function(err, results) {
       if(err) {
-        response.status(500).send('Sorry, we\'ve got an internal error.');
+        res.status(500).send(err);
         console.log('Query Error: ' + err);
       }
-      res.send(results)
+      res.status(200).send(results);
     });
   });
 });

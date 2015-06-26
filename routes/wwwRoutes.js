@@ -32,7 +32,8 @@ module.exports = (function(app) {
         route = 'http://localhost:' + app.get('port') + '/api/pieza/' + tipo;
         if(modelo){ route += '/' + modelo };
         rest.get(route).on('complete', function (piezas) {
-          res.render('pieza',{seccion : 'Piezas', results : piezas});
+          var cols = Object.keys( piezas[0] );
+          res.render('pieza',{seccion : 'Piezas', results : piezas, cols : cols});
         });
     });
 });

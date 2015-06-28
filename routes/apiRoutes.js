@@ -45,4 +45,37 @@ module.exports = (function(app) {
       res.status(200).send(results);
     });
   });
+
+  app.get('/api/catalogo', function (req, res){
+      
+    var query = 
+        "Select concat(PiezaT,cast(PiezaM AS CHAR)) AS Pieza, \
+         Pieza.Descripcion, \
+         Tipo.Nombre AS Categoria, \
+         Pieza.Precio, \
+         Existencias.Cantidad AS Existencias, \
+         Almacen.Nombre AS Sucursal, \
+         Almacen.Municipio AS Ciudad \
+         from Existencias \
+         inner join Pieza \
+         inner join Tipo \
+         inner join Estanteria \
+         inner join Almacen \
+         WHERE Existencias.PiezaM=Pieza.Modelo \
+         AND Existencias.PiezaT = Pieza.Tipo \
+         AND Pieza.Tipo = Tipo.idTipo \
+         AND Pieza.Tipo = Tipo.idTipo \
+         AND Existencias.idEstanteria = Estanteria.idEstanteria \
+         AND Estanteria.idAlmacen = Almacen.idAlmacen ORDER BY Existencias ASC;";
+
+    connection.query({sql:query,timeout : 200}, function(err, results) {
+      if(err) {
+        res.status(500).send(err);
+        console.log('Query Error: ' + err);
+      }
+      res.status(200).send(results);
+    });
+  });
+
+
 });

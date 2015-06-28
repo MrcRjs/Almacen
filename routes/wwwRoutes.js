@@ -36,4 +36,12 @@ module.exports = (function(app) {
           res.render('pieza',{seccion : 'Piezas', results : piezas, cols : cols});
         });
     });
+  app.get('/catalogo', function (req,res) {
+        route = 'http://localhost:' + app.get('port') + '/api/catalogo/';
+        rest.get(route).on('complete', function (piezas) {
+          var cols = Object.keys( piezas[0] );
+          res.render('pieza',{seccion : 'Catálogo', results : piezas, cols : cols});
+        });
+    });
+
 });

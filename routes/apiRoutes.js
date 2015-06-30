@@ -47,10 +47,13 @@ module.exports = (function(app) {
     }
     connection.query(query, function(err, results) {
       if(err) {
-        res.status(500).send(err);
-        console.log('Query Error: ' + err);
+        console.log('BD Error: ' + err);
+        res.status(500).send();
       }
-      res.status(200).send(results);
+      else{
+      if(results.length>0){res.status(200).send(results);}
+      else{res.status(400).send('No se han encontrado piezas');}
+      }
     });
   });
 
@@ -71,7 +74,8 @@ module.exports = (function(app) {
         res.status(500).send(err);
         console.log('Query Error: ' + err);
       }
-      res.status(200).send(results);
+      if(results){res.status(200).send(results);}
+      else{res.status(400).send('Sin existencias');}
     });
   });
 

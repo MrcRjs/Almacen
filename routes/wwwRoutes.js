@@ -31,9 +31,17 @@ module.exports = (function(app) {
         modelo  = req.params.modelo;
         route = 'http://localhost:' + app.get('port') + '/api/pieza/' + tipo;
         if(modelo){ route += '/' + modelo };
-        rest.get(route).on('complete', function (piezas) {
+        
+        rest.get(route)
+        .on('success', function (piezas) {
           var cols = Object.keys( piezas[0] );
           res.render('pieza',{seccion : 'Piezas', results : piezas, cols : cols});
+        })
+        .on('fail', function(err) {
+          res.render('error', {seccion : 'Error', error : err});
+        })
+        .on('error', function() {
+          res.render('error', {seccion : 'Error', error : 'Error interno del'});
         });
     });
   app.get('/catalogo', function (req,res) {

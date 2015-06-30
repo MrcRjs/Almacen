@@ -107,6 +107,20 @@ CREATE TABLE IF NOT EXISTS `Almacen`.`Existencias` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+USE `Almacen` ;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `Almacen`.`VPiezas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Almacen`.`VPiezas` (`Tipo` INT, `Modelo` INT, `Descripción` INT, `Categoría` INT, `Precio` INT, `Existencias` INT, `Sucursal` INT, `Ciudad` INT);
+
+-- -----------------------------------------------------
+-- View `Almacen`.`VPiezas`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `Almacen`.`VPiezas` ;
+DROP TABLE IF EXISTS `Almacen`.`VPiezas`;
+USE `Almacen`;
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`username`@`localhost` SQL SECURITY DEFINER VIEW `Almacen`.`VPiezas` AS select `Almacen`.`Existencias`.`PiezaT` AS `Tipo`,`Almacen`.`Existencias`.`PiezaM` AS `Modelo`,`Almacen`.`Pieza`.`Descripcion` AS `Descripción`,`Almacen`.`Tipo`.`Nombre` AS `Categoría`,`Almacen`.`Pieza`.`Precio` AS `Precio`,`Almacen`.`Existencias`.`Cantidad` AS `Existencias`,`Almacen`.`Almacen`.`Nombre` AS `Sucursal`,`Almacen`.`Almacen`.`Municipio` AS `Ciudad` from ((((`Almacen`.`Existencias` join `Almacen`.`Pieza`) join `Almacen`.`Tipo`) join `Almacen`.`Estanteria`) join `Almacen`.`Almacen`) where ((`Almacen`.`Existencias`.`PiezaM` = `Almacen`.`Pieza`.`Modelo`) and (`Almacen`.`Existencias`.`PiezaT` = `Almacen`.`Pieza`.`Tipo`) and (`Almacen`.`Pieza`.`Tipo` = `Almacen`.`Tipo`.`idTipo`) and (`Almacen`.`Pieza`.`Tipo` = `Almacen`.`Tipo`.`idTipo`) and (`Almacen`.`Existencias`.`idEstanteria` = `Almacen`.`Estanteria`.`idEstanteria`) and (`Almacen`.`Estanteria`.`idAlmacen` = `Almacen`.`Almacen`.`idAlmacen`)) order by `Almacen`.`Existencias`.`Cantidad`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

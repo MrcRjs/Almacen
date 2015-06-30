@@ -29,13 +29,21 @@ module.exports = (function(app) {
     var tipo   = req.params.tipo
         modelo = req.params.modelo
         query  = {
-          sql       : 'SELECT idEstanteria AS Estanteria, CONCAT(PiezaT, CAST(PiezaM AS CHAR)) AS Pieza, Cantidad FROM Existencias USE INDEX (fkPieza) WHERE PiezaT=?',
+          sql       : 'SELECT CONCAT(Tipo,CAST(Modelo as CHAR)) AS Pieza,\
+                      Descripción, \
+                      Categoría, \
+                      Precio, \
+                      Existencias, \
+                      Sucursal, \
+                      Ciudad \
+                      FROM VPiezas \
+                      WHERE Tipo=?',
           timeout   : 200,
           values    : [tipo]
         };
     if(modelo){
       query.values.push(modelo); 
-      query.sql += 'AND PiezaM=?';
+      query.sql += 'AND Modelo=?';
     }
     connection.query(query, function(err, results) {
       if(err) {
@@ -49,24 +57,14 @@ module.exports = (function(app) {
   app.get('/api/catalogo', function (req, res){
       
     var query = 
-        "Select concat(PiezaT,cast(PiezaM AS CHAR)) AS Pieza, \
-         Pieza.Descripcion, \
-         Tipo.Nombre AS Categoria, \
-         Pieza.Precio, \
-         Existencias.Cantidad AS Existencias, \
-         Almacen.Nombre AS Sucursal, \
-         Almacen.Municipio AS Ciudad \
-         from Existencias \
-         inner join Pieza \
-         inner join Tipo \
-         inner join Estanteria \
-         inner join Almacen \
-         WHERE Existencias.PiezaM=Pieza.Modelo \
-         AND Existencias.PiezaT = Pieza.Tipo \
-         AND Pieza.Tipo = Tipo.idTipo \
-         AND Pieza.Tipo = Tipo.idTipo \
-         AND Existencias.idEstanteria = Estanteria.idEstanteria \
-         AND Estanteria.idAlmacen = Almacen.idAlmacen ORDER BY Existencias ASC;";
+        "SELECT CONCAT(Tipo,CAST(Modelo as CHAR)) AS Pieza,\
+        Descripción, \
+        Categoría, \
+        Precio, \
+        Existencias, \
+        Sucursal, \
+        Ciudad \
+        FROM VPiezas;";
 
     connection.query({sql:query,timeout : 200}, function(err, results) {
       if(err) {
